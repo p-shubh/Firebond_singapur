@@ -1,12 +1,13 @@
 package router
 
 import (
-	"os"
+	"log"
+	"net/http"
 
-	"github.com/gin-gonic/gin"
+	"github.com/gorilla/mux"
 )
 
-func RouteSetUp() {
+/* func RouteSetUp() {
 	router := gin.Default()
 	gin.SetMode(os.Getenv("APP_MODE"))
 	Routes(router)
@@ -15,5 +16,21 @@ func RouteSetUp() {
 }
 
 func Routes(c *gin.Engine) {
+	ApplyRoutes(c)
+} */
+
+func RouteSetUp() {
+	router := mux.NewRouter()
+	Routes(router)
+	err := http.ListenAndServe(":8080", router)
+	if err!= nil {
+		log.Fatal("Failed To Start The Server")
+	}else{
+		log.Println("Server Started Successfully On Port 8080...")
+	}
+
+}
+
+func Routes(c *mux.Router) {
 	ApplyRoutes(c)
 }
